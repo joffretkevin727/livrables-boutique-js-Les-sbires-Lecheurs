@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 90%;
+            max-width: 600px;
+            min-height: 50px;
+            white-space: pre-wrap;
+        }
+
+        #copyBtn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <textarea id="texte" rows="6" cols="50" placeholder="Entrez votre texte ici..."></textarea><br>
+    <button id="btn">Get Data</button>
+
+    <div id="output"></div>
+    <button id="copyBtn">Copier le texte</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const btn = document.getElementById("btn");
+            const copyBtn = document.getElementById("copyBtn");
+            const output = document.getElementById("output");
+            const textarea = document.createElement("textarea"); // pour copier facilement
+
+            btn.addEventListener("click", () => {
+                const texte = document.getElementById("texte").value;
+                const texteLimite = texte.length > 500 ? texte.slice(0, 500) : texte;
+                output.textContent = texteLimite;
+                textarea.value = texteLimite; // mettre le texte dans le textarea pour copier
+            });
+
+            copyBtn.addEventListener("click", () => {
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+                alert("Texte copié !");
+            });
+        });
+    </script>
+</body>
+
+</html>
