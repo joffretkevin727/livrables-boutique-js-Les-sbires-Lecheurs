@@ -53,4 +53,12 @@ router.delete('/favoris/:id', controller.deleteFavori);
 router.get('/adresses/:user_id', controller.getAdresses);
 router.post('/adresses', controller.addAdresse);
 
+// ==================
+// ERREURS
+// ==================
+
+router.use((req, res) => {
+    res.status(404).json({ code: '404',message: 'Route non trouvée' });
+});
+
 module.exports = router;
