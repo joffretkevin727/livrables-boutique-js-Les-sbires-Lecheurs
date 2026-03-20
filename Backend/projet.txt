@@ -6,7 +6,7 @@ les branches se font ainsi :
                         -------  dev -------
                         |                  |
                         |                  |
-                        feature/back  feature/front
-                        |                  | 
-                        |                  |  
-                        back/database  front/html
+             ---------feature/back  feature/front
+             |          |                  | 
+             |          |                  |  
+    back/insertdata back/database     front/html

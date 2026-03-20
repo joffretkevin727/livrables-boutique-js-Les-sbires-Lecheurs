@@ -12,16 +12,15 @@ CREATE TABLE users (
 CREATE TABLE champions (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    difficulte ENUM('Faible','Moyenne','Élevée') NOT NULL,
+    difficulte ENUM('Facile','Moyen','Difficile') NOT NULL,
     description VARCHAR(500) NOT NULL,
     price INT NOT NULL,
     stock INT NOT NULL DEFAULT 50,
     reduction DECIMAL(5,2) DEFAULT 0,
     devise VARCHAR(10) DEFAULT 'RP',
-    genre ENUM('Masculin','Féminin','Non-binaire','Machine','Entité Cosmique','Yordle','Esprit') NOT NULL,
-    image1 VARCHAR(255),
-    image2 VARCHAR(255),
-    image3 VARCHAR(255)
+    genre ENUM('Masculin','Féminin','Autre') NOT NULL,
+    espece ENUM('humain','dieu','yordle','mort-vivant','être du néant','être celeste','darkin','demon','esprit','golem','vastaya','transfiguré','manifestation','autre') NOT NULL
+    
 );
 
 CREATE TABLE roles (
@@ -37,20 +36,19 @@ CREATE TABLE champion_roles (
     FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
 );
 
-CREATE TABLE skins (
+CREATE TABLE champion_images (
     id INT PRIMARY KEY AUTO_INCREMENT,
     champion_id INT NOT NULL,
-    nom VARCHAR(100),
-    prix INT NOT NULL,
+    url VARCHAR(255) NOT NULL,
     FOREIGN KEY (champion_id) REFERENCES champions(id) ON DELETE CASCADE
 );
 
-CREATE TABLE chromas (
+CREATE TABLE skins (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    skin_id INT NOT NULL,
-    nom VARCHAR(100) NOT NULL,
-    prix INT NOT NULL DEFAULT 290,
-    FOREIGN KEY (skin_id) REFERENCES skins(id) ON DELETE CASCADE
+    champion_id INT NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    prix INT NOT NULL,
+    FOREIGN KEY (champion_id) REFERENCES champions(id) ON DELETE CASCADE
 );
 
 CREATE TABLE icon_avatars (
@@ -99,13 +97,11 @@ CREATE TABLE panier (
     user_id INT NOT NULL,
     champion_id INT NOT NULL,
     skin_id INT NULL,
-    chroma_id INT NULL,
     icon_avatar_id INT NULL,
     quantite INT NOT NULL DEFAULT 1,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (champion_id) REFERENCES champions(id),
     FOREIGN KEY (skin_id) REFERENCES skins(id),
-    FOREIGN KEY (chroma_id) REFERENCES chromas(id),
     FOREIGN KEY (icon_avatar_id) REFERENCES icon_avatars(id)
 );
 

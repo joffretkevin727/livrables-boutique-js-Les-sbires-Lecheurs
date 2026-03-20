@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background: #1a1a2e; display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; }
+        .icon { text-align: center; cursor: pointer; }
+        .icon img { width: 64px; height: 64px; border: 2px solid transparent; }
+        .icon img:hover { border-color: #C89B3C; }
+        .icon p { color: white; font-size: 10px; margin: 2px 0; }
+    </style>
+</head>
+<body>
+<script>
+fetch('https://ddragon.leagueoflegends.com/cdn/16.4.1/data/fr_FR/profileicon.json')
+  .then(res => res.json())
+  .then(data => {
+    const ids = Object.keys(data.data);
+    ids.forEach(id => {
+        const div = document.createElement('div');
+        div.className = 'icon';
+        div.innerHTML = `
+            <img src="https://ddragon.leagueoflegends.com/cdn/16.4.1/img/profileicon/${id}.png">
+            <p>${id}</p>
+        `;
+        div.onclick = () => {
+            navigator.clipboard.writeText(id);
+            alert(`ID ${id} copié !`);
+        };
+        document.body.appendChild(div);
+    });
+  });
+</script>
+</body>
+</html>
