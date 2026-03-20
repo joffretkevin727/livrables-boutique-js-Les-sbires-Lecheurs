@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const sneakercontroller = require('../controller/sneaker');
 
-router.get('/sneakers', sneakercontroller.getSneakers);
-router.get('/sneaker/:id', sneakercontroller.getSneakersById);
+router.get('/champions', sneakercontroller.getChampions);
+router.get('/champion/:id', sneakercontroller.getChampionByID);
 
 module.exports = router;

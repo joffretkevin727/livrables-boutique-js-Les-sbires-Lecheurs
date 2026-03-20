@@ -1,16 +1,17 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 6767;
-const cors = require('cors')
+const cors = require('cors');
 
-app.use(cors( {
+app.use(cors({
     origin: "*"
-}))
+}));
 
-const sneakerRouter = require('./router/sneaker');
+app.use(express.json());
 
-app.use(sneakerRouter);
+const championRouter = require('./api/router/router');
 
+app.use(championRouter);
 
 app.listen(port, () => console.log(`server is running on port ${port}`));
-

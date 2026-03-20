@@ -1,0 +1,57 @@
+
+
+1. tu import le router dans le app.js
+
+2. tu import le controller dans le router.js
+
+3. tu import le model dans le controller
+
+
+ ex : /champion/:id -> getChampionByID() 1er verif erreur, 2eme verif(si vide ou erreur serveur) -> model (Select * from champion where id)
+
+indication :
+
+ router c'est tes routes
+
+ controller, il controlle c'est la doane (type, erreur, etc...)
+
+ model, c'est tes requette SQL seulement
+
+ 2eme fois le controller parce que le model renvoie la réponse. 2eme fois la doane (ex: erreur serveur renvoi JSON, renvoi un json, erreur 404 encore un JSON)
+
+Champions (produits)
+
+GET /champions — tous les champions (catalogue)
+GET /champions/:id — un champion par id (page détail)
+GET /champions/:id/skins — les skins d'un champion (carrousel)
+GET /champions/:id/similaires — champions similaires (même rôle)
+GET /champions/filter — filtrer par rôle, difficulté, espèce...
+GET /champions/sort — trier par prix croissant/décroissant
+
+Users
+
+POST /users/register — inscription
+POST /users/login — connexion
+
+Panier
+
+GET /panier/:user_id — récupérer le panier
+POST /panier — ajouter au panier
+PUT /panier/:id — modifier la quantité
+DELETE /panier/:id — supprimer du panier
+
+Commandes
+
+POST /commandes — passer la commande
+GET /commandes/:user_id — historique commandes
+
+Favoris
+
+GET /favoris/:user_id — voir les favoris
+POST /favoris — ajouter un favori
+DELETE /favoris/:id — supprimer un favori
+
+Adresses
+
+POST /adresses — ajouter une adresse
+GET /adresses/:user_id — récupérer les adresses
