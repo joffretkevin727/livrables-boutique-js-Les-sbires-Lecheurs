@@ -40,14 +40,13 @@ CREATE TABLE champion_images (
     id INT PRIMARY KEY AUTO_INCREMENT,
     champion_id INT NOT NULL,
     url VARCHAR(255) NOT NULL,
-    ordre INT DEFAULT 0,
     FOREIGN KEY (champion_id) REFERENCES champions(id) ON DELETE CASCADE
 );
 
 CREATE TABLE skins (
     id INT PRIMARY KEY AUTO_INCREMENT,
     champion_id INT NOT NULL,
-    nom VARCHAR(100),
+    url VARCHAR(255) NOT NULL,
     prix INT NOT NULL,
     FOREIGN KEY (champion_id) REFERENCES champions(id) ON DELETE CASCADE
 );
