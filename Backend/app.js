@@ -14,4 +14,4 @@ const championRouter = require('./api/router/router');
 
 app.use(championRouter);
 
-app.listen(port, () => console.log(`server is running on port ${port}`));
+app.listen(port, () => console.log(`server is running on port ${port}. Here is the link : http://localhost:6767/champions `));

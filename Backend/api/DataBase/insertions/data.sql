@@ -1,4 +1,4 @@
-
+USE champ_commerce;
 INSERT INTO roles (nom) VALUES
     ('Assassin'),
     ('Combattant'),
@@ -1864,7 +1864,7 @@ INSERT INTO champion_roles (champion_id, role_id) VALUES
 -- ========================
 -- INSERT champion_images
 -- ========================
-INSERT INTO champion_images (champion_id, url, ordre) VALUES
+INSERT INTO champion_images (champion_id, url) VALUES
 (1, 'assets/skins/Aatrox/default.jpg'),
 (2, 'assets/skins/Ahri/default.jpg'),
 (3, 'assets/skins/Akali/default.jpg'),

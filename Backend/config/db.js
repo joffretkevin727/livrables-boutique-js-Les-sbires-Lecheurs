@@ -8,11 +8,3 @@ const pool = mysql.createPool({
 });
 
 module.exports = pool.promise();
-```
-
-Et ton **`.env`** :
-```
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=champ_commerce
