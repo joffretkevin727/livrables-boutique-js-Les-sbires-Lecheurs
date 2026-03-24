@@ -13,11 +13,11 @@ const getChampionById = (id) => {
 };
 
 const getChampionSkins = (id) => {
-    return db.query('SELECT * FROM skins WHERE champion_id = ?', [id]);
+    return db.query('SELECT id, url_centered, url_loadscreen, prix FROM skins WHERE champion_id = ?', [id]);
 };
 
 const getChampionImage = (id) => {
-    return db.query('SELECT * FROM champion_images WHERE champion_id = ?', [id]);
+    return db.query('SELECT url_centered, url_loadscreen FROM champion_images WHERE champion_id = ?', [id]);
 };
 
 const getChampionRoles = (id) => {
@@ -145,7 +145,7 @@ const createUser = (name, lastname, email, password) => {
 
 const getPanierByUser = (user_id) => {
     return db.query(`
-        SELECT p.*, c.name, c.price, ci.url as image
+        SELECT p.*, c.name, c.price, ci.url_centered, ci.url_loadscreen
         FROM panier p
         JOIN champions c ON c.id = p.champion_id
         LEFT JOIN champion_images ci ON ci.champion_id = p.champion_id
@@ -196,7 +196,7 @@ const updateStock = (champion_id, quantite) => {
 
 const getFavorisByUser = (user_id) => {
     return db.query(`
-        SELECT f.*, c.name, c.price, ci.url as image
+        SELECT f.*, c.name, c.price, ci.url_centered, ci.url_loadscreen
         FROM favoris f
         JOIN champions c ON c.id = f.champion_id
         LEFT JOIN champion_images ci ON ci.champion_id = f.champion_id

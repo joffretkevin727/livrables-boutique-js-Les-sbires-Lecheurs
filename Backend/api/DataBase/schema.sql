@@ -39,14 +39,16 @@ CREATE TABLE champion_roles (
 CREATE TABLE champion_images (
     id INT PRIMARY KEY AUTO_INCREMENT,
     champion_id INT NOT NULL,
-    url VARCHAR(255) NOT NULL,
+    url_centered VARCHAR(255) NOT NULL,
+    url_loadscreen VARCHAR(255) NOT NULL,
     FOREIGN KEY (champion_id) REFERENCES champions(id) ON DELETE CASCADE
 );
 
 CREATE TABLE skins (
     id INT PRIMARY KEY AUTO_INCREMENT,
     champion_id INT NOT NULL,
-    url VARCHAR(255) NOT NULL,
+    url_centered VARCHAR(255) NOT NULL,
+    url_loadscreen VARCHAR(255) NOT NULL,
     prix INT NOT NULL,
     FOREIGN KEY (champion_id) REFERENCES champions(id) ON DELETE CASCADE
 );
