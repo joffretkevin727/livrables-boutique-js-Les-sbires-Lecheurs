@@ -33,7 +33,6 @@ body > div {
     max-width: 900px;
     margin: auto;
     overflow: hidden;
-    border-right: 1px solid rgba(79, 195, 247, 0.1);
 }
 
 .carousel-viewport {
@@ -102,10 +101,12 @@ body > div {
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0; /* On gère le padding dans info-champ pour que l'image colle en haut */
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 #big-img {
-    width: 100%;
+    width: 95%;
     height: auto;
     max-height: 60vh;
     object-fit: cover;
@@ -114,7 +115,8 @@ body > div {
 }
 
 .info-champ {
-    padding: 30px;
+    padding-left: 40px;
+    margin: 30px;
     width: 100%;
     box-sizing: border-box;
 }
