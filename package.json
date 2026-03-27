@@ -7,10 +7,12 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "start": "supervisor app.js",
-    "projet": "start \"\" \"C:\\MAMP\\MAMP.exe\" && timeout 10 && start /MIN cmd /c supervisor app.js && timeout 1 && start http://localhost:6767/champions",
-    "stop": "taskkill /F /IM MAMP.exe & taskkill /F /IM node.exe"
-  },
+    "api": "supervisor ./Backend/app.js",
+    "site": "supervisor ./frontend/server.js",
+    "dev": "start cmd /k npm run api && start cmd /k npm run site",
+    "projet": "start \"\" \"C:\\MAMP\\MAMP.exe\" && timeout 12 && npm run dev && timeout 4 && start http://localhost:6969/product?id=2",
+    "stop": "taskkill /F /IM MAMP.exe /T & taskkill /F /IM node.exe /T"
+},
   "dependencies": {
     "axios": "^1.13.6",
     "bcrypt": "^6.0.0",

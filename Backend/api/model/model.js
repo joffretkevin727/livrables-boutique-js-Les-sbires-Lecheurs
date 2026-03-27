@@ -5,11 +5,24 @@ const db = require('../../config/db');
 // ==================
 
 const getAllChampions = () => {
-    return db.query('SELECT * FROM champions');
+    return db.query(`SELECT c.*, ci.url_loadscreen 
+        FROM champions c
+        INNER JOIN champion_images ci ON c.id = ci.champion_id`);
 };
 
 const getChampionById = (id) => {
-    return db.query('SELECT * FROM champions WHERE id = ?', [id]);
+    return db.query(`
+        SELECT c.*, ci.url_centered, ci.url_loadscreen, 
+        (SELECT JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'url_centered', s.url_centered,
+                'url_loadscreen', s.url_loadscreen
+            )
+         ) FROM skins s WHERE s.champion_id = c.id) AS skins
+        FROM champions c
+        LEFT JOIN champion_images ci ON c.id = ci.champion_id
+        WHERE c.id = ?
+    `, [id]);
 };
 
 const getChampionSkins = (id) => {

@@ -1,0 +1,162 @@
+:root {
+    --bg-dark: #12181f;       /* Bleu très sombre */
+    --accent-blue: #4fc3f7;   /* Bleu acier */
+    --gold: #d4af37;          /* Or */
+    --gold-hover: #9a8a5d;    /* Or sombre pour survol */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    background-color: var(--bg-dark);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- Colonnes principales --- */
+body > div {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column; /* Aligne le contenu verticalement dans chaque colonne */
+    position: relative;
+}
+
+/* --- Section Carrousel (Gauche) --- */
+.carousel-container {
+    justify-content: center; /* Centre le carrousel verticalement à gauche */
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.carousel-viewport {
+    overflow: hidden;
+    padding: 60px 0;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateX(33.33%); 
+}
+
+.carousel-track img {
+    width: 33.33%;
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
+    flex-shrink: 0;
+    transition: all 0.5s ease;
+    filter: blur(4px) grayscale(0.5);
+    transform: scale(0.8);
+    opacity: 0.4;
+}
+
+.carousel-track img.active {
+    filter: blur(0) grayscale(0);
+    transform: scale(1.1);
+    opacity: 1;
+    border-bottom: 2px solid var(--gold); /* Souligne le skin actif */
+}
+
+/* --- Boutons Navigation --- */
+.btn-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(18, 24, 31, 0.8);
+    color: var(--accent-blue);
+    border: 1px solid var(--accent-blue);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 20px;
+    transition: 0.3s;
+}
+
+.btn-nav:hover {
+    background: var(--accent-blue);
+    color: var(--bg-dark);
+}
+
+.prev { left: 5%; }
+.next { right: 5%; }
+
+/* --- Section Achat (Droite) --- */
+.achat {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Force le contenu vers le haut */
+    align-items: center;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0; /* On gère le padding dans info-champ pour que l'image colle en haut */
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#big-img {
+    width: 95%;
+    height: auto;
+    max-height: 60vh;
+    object-fit: cover;
+    object-position: top;
+    border-bottom: 2px solid var(--gold);
+}
+
+.info-champ {
+    padding-left: 40px;
+    margin: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.info-champ h1 {
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    margin-top: 0;
+}
+
+.price {
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+#toggle-btn {
+    background: none;
+    border: none;
+    color: var(--gold);
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+/* --- Barre de scroll personnalisée --- */
+.achat::-webkit-scrollbar {
+    width: 8px;
+}
+
+.achat::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+.achat::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    border-radius: 10px;
+}
+
+.achat::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-hover);
+}
