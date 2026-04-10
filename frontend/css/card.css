@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    background-color: #1f2124;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.card {
+    position: relative;
+    width: 350px;
+    height: 550px;
+    /* border: 2px solid #C89B3C; */ /* LIGNE SUPPRIMÉE : Cadre extérieur jaune */
+    border-radius: 10px;
+    overflow: hidden;
+    /* Conserver l'ombre portée pour détacher la carte du fond, ou la commenter si tu n'en veux pas */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+    transition: transform 0.4s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    /* box-shadow: 0 0 40px rgba(200, 155, 60, 0.5); */ /* LIGNE MODIFIÉE : Ombre plus neutre au survol */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* Vignettage pour la profondeur - Conservé pour la lisibilité du texte */
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%);
+    z-index: 4; /* Entre la déco et les textes */
+    pointer-events: none;
+}
+
+.banner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Poro Banner : Comme avant */
+#poro_banner {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 3; /* Devant le champion */
+    pointer-events: none;
+    top: 30px;
+}
+
+/* Champion : Comme avant */
+/* 1. On donne un positionnement relatif au conteneur de l'image pour que le prix se base sur lui */
+/* Le conteneur qui est centré en bas */
+.img-champ {
+    position: absolute;
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65%; /* On force le conteneur à faire la même largeur que l'image */
+    z-index: 2;
+}
+
+/* L'image prend 100% de son parent (soit 65% de la carte) */
+#champ {
+    width: 100%; 
+    height: auto;
+    display: block; /* Évite les espaces vides sous l'image */
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.7));
+}
+
+/* Le prix se place maintenant par rapport au bord de l'image */
+.champ-price {
+    position: absolute;
+    top: 0;      /* Aligné sur le haut de l'image */
+    right: 0;    /* Aligné sur le bord droit de l'image */
+    z-index: 6;
+    color: #C89B3C;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    background: rgba(1, 10, 19, 0.5);
+    padding: 6px 5px;
+    margin-right: 10px;
+    margin-top: 10px;
+    border-radius: 4px 4px 4px 4px; /* Arrondi seulement le coin inférieur gauche */
+    border: 1px solid #C89B3C;
+    font-size: 12px;
+}
+
+/* Nom : Comme avant */
+.champ-name {
+    position: absolute;
+    bottom: 115px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+}
+
