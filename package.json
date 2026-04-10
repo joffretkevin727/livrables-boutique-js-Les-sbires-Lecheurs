@@ -9,8 +9,8 @@
   "scripts": {
     "api": "supervisor ./Backend/app.js",
     "site": "supervisor ./frontend/server.js",
-    "dev": "start cmd /k npm run api && start cmd /k npm run site",
-    "projet": "start \"\" \"C:\\MAMP\\MAMP.exe\" && timeout 12 && npm run dev && timeout 4 && start http://localhost:6969/product?id=2",
+    "dev": "start cmd /k npm run api && timeout 2 && start cmd /k npm run site",
+    "projet": "start \"\" \"C:\\MAMP\\MAMP.exe\" && timeout 12 && npm run dev && timeout 3 && start http://localhost:6969/product?id=2",
     "stop": "taskkill /F /IM MAMP.exe /T & taskkill /F /IM node.exe /T"
 },
   "dependencies": {
