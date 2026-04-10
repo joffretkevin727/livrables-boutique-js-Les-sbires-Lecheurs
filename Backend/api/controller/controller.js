@@ -1,5 +1,6 @@
 const model = require('../model/model');
-
+const bcrypt = require('bcrypt');
+const saltRounds = 9;
 // ==================
 // CHAMPIONS
 // ==================
@@ -133,16 +134,19 @@ const register = async (req, res) => {
     try {
         const { name, lastname, email, password } = req.body;
         if (!name || !lastname || !email || !password) {
-            return res.status(400).json({ code: '400',message: 'Tous les champs sont obligatoires' });
+            return res.status(400).json({ code: '400', message: 'Tous les champs sont obligatoires' });
         }
         const [existing] = await model.getUserByEmail(email);
         if (existing.length > 0) {
-            return res.status(409).json({ code: '409',message: 'Email déjà utilisé' });
+            return res.status(409).json({ code: '409', message: 'Email déjà utilisé' });
         }
-        await model.createUser(name, lastname, email, password);
-        res.status(201).json({ code: '201',message: 'Utilisateur créé avec succès' });
+
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        await model.createUser(name, lastname, email, hashedPassword);
+        res.status(201).json({ code: '201', message: 'Utilisateur créé avec succès' });
     } catch (error) {
-        res.status(500).json({ code: '500',message: 'Erreur serveur', error });
+        res.status(500).json({ code: '500', message: 'Erreur serveur', error });
     }
 };
 
@@ -150,19 +154,22 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            return res.status(400).json({ code: '400',message: 'Email et mot de passe obligatoires' });
+            return res.status(400).json({ code: '400', message: 'Email et mot de passe obligatoires' });
         }
         const [users] = await model.getUserByEmail(email);
         if (users.length === 0) {
-            return res.status(404).json({ code: '404',message: 'Utilisateur non trouvé' });
+            return res.status(404).json({ code: '404', message: 'Utilisateur non trouvé' });
         }
         const user = users[0];
-        if (user.password !== password) {
-            return res.status(401).json({ code: '401',message: 'Mot de passe incorrect' });
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ code: '401', message: 'Mot de passe incorrect' });
         }
-        res.status(200).json({ code: '200',message: 'Connexion réussie', user });
+
+        res.status(200).json({ code: '200', message: 'Connexion réussie', user });
     } catch (error) {
-        res.status(500).json({ code: '500',message: 'Erreur serveur', error });
+        res.status(500).json({ code: '500', message: 'Erreur serveur', error });
     }
 };
 
