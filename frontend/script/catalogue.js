@@ -1,6 +1,7 @@
 const API_URL = "http://localhost:6767/champions";
 const container = document.getElementById('catalog-container');
 
+// CHARGEMENT INITIAL
 const fetchChampions = () => {
     fetch(API_URL)
         .then(response => {
@@ -20,17 +21,48 @@ const fetchChampions = () => {
         });
 };
 
-const setupClickEvents = () => {
-    const cards = document.querySelectorAll('.champion-card');
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            const id = card.getAttribute('data-id');
-            window.location.href = `http://localhost:6969/product?id=${id}`;
-        });
-    });
-};
+// GESTION DES FILTRES
+function toggleFilterMenu() {
+    const menu = document.getElementById('filter-menu');
+    menu.classList.toggle('hidden');
+}
 
+async function applyFilters() {
+    const roles = Array.from(document.querySelectorAll('.filter-role:checked')).map(el => el.value);
+    const diffs = Array.from(document.querySelectorAll('.filter-diff:checked')).map(el => el.value);
+    const genres = Array.from(document.querySelectorAll('.filter-genre:checked')).map(el => el.value);
+
+    let params = new URLSearchParams();
+    if (roles.length) params.append('roles', roles.join(','));
+    if (diffs.length) params.append('difficultes', diffs.join(','));
+    if (genres.length) params.append('genres', genres.join(','));
+
+    const url = `${API_URL}/filter?${params.toString()}`;
+
+    try {
+        const res = await fetch(url);
+        const list = await res.json();
+        
+        // On doit re-fetcher les détails pour avoir les skins (pour l'effet hover)
+        const detailPromises = list.map(champ => 
+            fetch(`${API_URL}/${champ.id}`).then(res => res.json())
+        );
+        const fullData = await Promise.all(detailPromises);
+        
+        renderChampions(fullData);
+        toggleFilterMenu();
+    } catch (err) {
+        console.error("Erreur filtrage:", err);
+    }
+}
+
+// RENDU DES CARTES
 const renderChampions = (champions) => {
+    if (champions.length === 0) {
+        container.innerHTML = "<p class='col-span-full text-center py-10'>Aucun champion ne correspond à ces critères.</p>";
+        return;
+    }
+
     container.innerHTML = champions.map(champ => {
         const defaultImg = `../Backend/${champ.url_loadscreen}`;
         const hoverImg = (champ.skins && champ.skins.length > 0) 
@@ -68,8 +100,26 @@ const renderChampions = (champions) => {
         </div>`;
     }).join('');
 
-    // Une fois les cartes injectées, on ajoute l'écouteur de clic
     setupClickEvents();
 };
+
+const setupClickEvents = () => {
+    const cards = document.querySelectorAll('.champion-card');
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const id = card.getAttribute('data-id');
+            window.location.href = `http://localhost:6969/product?id=${id}`;
+        });
+    });
+};
+
+// Fermeture du menu au clic extérieur
+window.onclick = function(event) {
+    const menu = document.getElementById('filter-menu');
+    const btn = event.target.closest('.btn');
+    if (menu && !menu.contains(event.target) && !btn) {
+        menu.classList.add('hidden');
+    }
+}
 
 fetchChampions();

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Profil - Poro Corp</title>
+    <link rel="stylesheet" href="frontend/css/profil.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#00395f] text-white">
+    <header class="p-5 border-b border-sky-400 mb-10 flex justify-between items-center">
+        <a href="catalogue.html"><img src="frontend/img/poro.png" class="w-12"></a>
+        <h1 class="text-2xl font-bold text-[#d4af37]">Espace Invocateur</h1>
+        <button onclick="logout()" class="text-red-400 hover:underline">Déconnexion</button>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <section class="bg-[#002a46] p-6 rounded-lg border border-[#d4af37]">
+                <h2 class="text-[#d4af37] text-xl mb-4">Mes Informations</h2>
+                <p><strong>Prénom :</strong> <span id="user-name"></span></p>
+                <p><strong>Nom :</strong> <span id="user-lastname"></span></p>
+                <p><strong>Email :</strong> <span id="user-email"></span></p>
+            </section>
+
+            <section class="bg-[#002a46] p-6 rounded-lg border border-sky-400">
+                <h2 class="text-sky-400 text-xl mb-4">Mes Adresses</h2>
+                <div id="address-list" class="text-sm space-y-2"></div>
+            </section>
+        </div>
+
+        <section class="mt-8 bg-[#002a46] p-6 rounded-lg border border-sky-400">
+            <h2 class="text-sky-400 text-xl mb-4">Historique des commandes</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-gray-600">
+                            <th class="py-2">N° Commande</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-list"></tbody>
+                </table>
+            </div>
+        </section>
+        <section>
+            <div class="flex gap-4">
+                <button onclick="window.location.href='cart'"
+                    class="bg-[#d4af37] text-[#001524] px-4 py-2 rounded font-bold">
+                    🛒 Mon Panier
+                </button>
+                <button onclick="logout()" class="text-red-400 hover:underline">Déconnexion</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="frontend/script/profil.js"></script>
+</body>
+
+</html>

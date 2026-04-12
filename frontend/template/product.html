@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poro Corp</title>
     <link rel="stylesheet" href="/frontend/css/product.css">
+    <link rel="stylesheet" href="/frontend/css/header.css">
 </head>
 
 <body>
     <header>
-        <button class="btnporo"><img class="poro" src="frontend/img/poro.png" alt="imgPoro"></button>
+        <button class="btnporo" onclick="window.location.href='catalogue'">
+            <img class="poro" src="frontend/img/poro.png" alt="Logo">
+        </button>
         <div class="tbtn">
-            <button class="btn">Filtres</button>
-            <div class="search">
-                <input type="text" id="searchInput" placeholder="Rechercher un champion..." class="search-input"/>
-            </div>
-            <button class="btn">Profil</button>
+            <button class="btn" onclick="window.location.href='cart'">Panier</button>
+            <button class="btn" onclick="window.location.href='profil'">Profil</button>
         </div>
     </header>
     <main>

@@ -6,12 +6,12 @@
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
     transition: transform 0.4s ease;
-    transform: scale(1.15);
-    margin-bottom: 180px;
+    transform: scale(0.9);
+    margin-bottom: 40px;
 }
 
 .card:hover {
-    transform: scale(1.2);
+    transform: scale(1);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
 }
 
