@@ -1,7 +1,7 @@
 const API_URL = "http://localhost:6767/champions";
 const FAVORIS_URL = "http://localhost:6767/favoris";
 const container = document.getElementById('catalog-container');
-
+let allChampions = [];
 const user = JSON.parse(localStorage.getItem('user'));
 const userId = user?.id;
 
@@ -89,11 +89,28 @@ const fetchChampions = () => {
             );
             return Promise.all(detailPromises);
         })
-        .then(fullDataChampions => renderChampions(fullDataChampions))
+        .then(fullDataChampions => {
+            allChampions = fullDataChampions; // 🔥 IMPORTANT
+            renderChampions(fullDataChampions);
+        })
         .catch(error => {
             console.error("Erreur:", error);
             if (container) container.innerHTML = `<p>Erreur de chargement.</p>`;
         });
+};
+
+const setupSearch = () => {
+    const input = document.getElementById('searchInput');
+
+    input.addEventListener('input', () => {
+        const value = input.value.toLowerCase().trim();
+
+        const filtered = allChampions.filter(champ =>
+            champ.name.toLowerCase().includes(value)
+        );
+
+        renderChampions(filtered);
+    });
 };
 
 // ==================
@@ -255,9 +272,9 @@ window.onclick = function(event) {
 };
 
 const init = async () => {
-    console.log("User connecté :", user);
-    await fetchUserFavoris();
-    fetchChampions();
+    await fetchUserFavoris(); // charge les favoris
+    fetchChampions();         // charge les champions
+    setupSearch();            // active la recherche
 };
 
 init();
