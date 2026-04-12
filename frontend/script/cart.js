@@ -21,40 +21,50 @@ async function loadCart(userId) {
     try {
         const res = await fetch(`http://localhost:6767/panier/${userId}`);
         const items = await res.json();
-        
         const container = document.getElementById('cart-items');
         let total = 0;
 
         if (!res.ok || items.length === 0) {
-            container.innerHTML = "<p class='text-center text-gray-400 py-10'>Votre panier est vide.</p>";
+            container.innerHTML = "<p class='empty-cart'>Votre panier est vide.</p>";
             return;
         }
 
         container.innerHTML = items.map(item => {
-            total += (item.price * item.quantite);
+            // Calcul du prix réduit s'il y a une réduction, sinon prix normal
+            const hasPromo = item.reduction > 0;
+            const unitPrice = hasPromo 
+                ? Math.floor(item.price * (1 - item.reduction / 100)) 
+                : item.price;
             
-            // Si c'est un skin (skin_id non null), on formate le nom via l'URL
-            // Sinon on garde le nom du champion
+            const lineTotal = unitPrice * item.quantite;
+            total += lineTotal;
+
             const displayName = item.skin_id 
                 ? formatSkinName(item.final_url_loadscreen, item.champion_name) 
                 : item.champion_name;
 
             return `
-                <div class="flex items-center bg-[#002a46] p-4 rounded border border-gray-700 justify-between">
-                    <div class="flex items-center gap-4">
-                        <img src="/Backend/${item.final_url_loadscreen}" class="w-20 h-24 object-cover rounded shadow-md border border-sky-900">
+                <div class="cart-card">
+                    <div class="cart-card-info">
+                        <div class="img-container">
+                            <img src="/Backend/${item.final_url_loadscreen}" alt="${displayName}">
+                        </div>
                         <div>
-                            <h3 class="text-lg font-bold text-white">${displayName}</h3>
-                            <p class="text-[#d4af37] font-semibold">${item.price} ${item.devise || 'RP'}</p>
+                            <h3 class="item-title">${displayName}</h3>
+                            <div class="price-display">
+                                ${hasPromo ? `<span class="old-price" style="text-decoration: line-through; color: #ff4e4e; font-size: 0.85em; margin-right: 5px;">${item.price}</span>` : ''}
+                                <span class="item-price">${unitPrice} ${item.devise || 'RP'}</span>
+                                ${hasPromo ? `<span class="promo-badge" style="color: #2ecc71; font-size: 0.8em; margin-left: 5px;">(-${Math.round(item.reduction)}%)</span>` : ''}
+                            </div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-6">
-                        <div class="flex items-center border border-gray-600 rounded bg-[#1e2d3d]">
-                            <button onclick="updateQty(${item.id}, ${item.quantite - 1})" class="px-3 py-1 hover:text-[#d4af37]">-</button>
-                            <span class="px-3 border-x border-gray-600">${item.quantite}</span>
-                            <button onclick="updateQty(${item.id}, ${item.quantite + 1})" class="px-3 py-1 hover:text-[#d4af37]">+</button>
+                    <div class="cart-card-actions">
+                        <div class="qty-selector">
+                            <button onclick="updateQty(${item.id}, ${item.quantite - 1})">-</button>
+                            <span>${item.quantite}</span>
+                            <button onclick="updateQty(${item.id}, ${item.quantite + 1})">+</button>
                         </div>
-                        <button onclick="deleteItem(${item.id})" class="text-red-500 hover:text-red-300 font-bold">Supprimer</button>
+                        <button onclick="deleteItem(${item.id})" class="btn-delete">Supprimer</button>
                     </div>
                 </div>
             `;

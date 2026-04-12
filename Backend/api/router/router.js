@@ -9,6 +9,7 @@ const controller = require('../controller/controller');
 router.get('/champions', controller.getAllChampions);
 router.get('/champions/filter', controller.filterChampions);
 router.get('/champions/sort', controller.sortChampions);
+router.get('/champions/refresh-promos', controller.applyRandomPromotions);
 router.get('/champions/:id', controller.getChampionById);
 router.get('/champions/:id/skins', controller.getChampionSkins);
 router.get('/champions/:id/image', controller.getChampionImage);

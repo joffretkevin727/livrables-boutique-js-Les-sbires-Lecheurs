@@ -1,5 +1,6 @@
 const model = require('../model/model');
 const bcrypt = require('bcrypt');
+const db = require('../../config/db');
 const saltRounds = 9;
 // ==================
 // CHAMPIONS
@@ -124,6 +125,22 @@ const sortChampions = async (req, res) => {
     }
 };
 
+const applyRandomPromotions = async (req, res) => {
+    try {
+        await model.applyRandomPromotions();
+        // Si res existe, c'est un appel via Router (URL), sinon c'est le démarrage (app.js)
+        if (res) {
+            return res.status(200).json({ message: "Promotions mises à jour" });
+        }
+    } catch (error) {
+        if (res) {
+            return res.status(500).json({ message: "Erreur serveur" });
+        }
+        throw error; // Propagera l'erreur vers app.js
+    }
+};
+
+
 // ==================
 // USERS
 // ==================
@@ -237,33 +254,80 @@ const deleteFromPanier = async (req, res) => {
 // ==================
 
 const createCommande = async (req, res) => {
+    let connection;
     try {
         const { user_id, adresse_id, total, items } = req.body;
 
-        // 1. Créer la commande dans la table 'commandes'
-        const [result] = await model.createCommande(user_id, adresse_id, total);
-        const commandeId = result.insertId;
-
-        // 2. Transférer les items du panier vers 'commande_items' et mettre à jour les stocks
-        for (const item of items) {
-            // Ajout dans l'historique des commandes
-            await model.createCommandeItem(commandeId, item.champion_id, item.skin_id, item.quantite, item.price);
-            // Mise à jour du stock champion
-            await model.updateStock(item.champion_id, item.quantite);
+        // VERIFICATION : Si items est undefined ou vide, on stoppe net
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({ message: "Le panier est vide ou mal formé." });
         }
 
-        // 3. LE RESET : On vide le panier de l'utilisateur
-        await model.clearPanier(user_id);
+        connection = await db.getConnection();
+        await connection.beginTransaction();
 
-        res.status(201).json({ 
-            code: '201', 
-            message: 'Commande validée avec succès et panier réinitialisé.' 
-        });
+        // 1. Gestion des stocks
+        for (const item of items) {
+            // Sécurité : Vérifier que les propriétés existent
+            if (!item.champion_id || !item.quantite) {
+                throw new Error("Données d'article manquantes (ID ou Quantité)");
+            }
+
+            const [rows] = await connection.query(
+                'SELECT name, stock FROM champions WHERE id = ? FOR UPDATE', 
+                [item.champion_id]
+            );
+            
+            if (rows.length === 0) throw new Error(`Champion ID ${item.champion_id} introuvable`);
+            
+            if (rows[0].stock < item.quantite) {
+                throw new Error(`Stock insuffisant pour ${rows[0].name}`);
+            }
+
+            await connection.query(
+                'UPDATE champions SET stock = stock - ? WHERE id = ?',
+                [item.quantite, item.champion_id]
+            );
+        }
+
+        // 2. Insertion Commande 
+        // Note : Vérifie que 'statut' est bien une colonne de ta table 'commandes'
+        const [orderResult] = await connection.query(
+            'INSERT INTO commandes (user_id, adresse_id, statut, total) VALUES (?, ?, ?, ?)',
+            [user_id, adresse_id, 'payée', total]
+        );
+        const commandeId = orderResult.insertId;
+
+        // 3. Insertion Items (Table: commande_items)
+        for (const item of items) {
+            await connection.query(
+                'INSERT INTO commande_items (commande_id, champion_id, skin_id, quantite, price_unity) VALUES (?, ?, ?, ?, ?)',
+                [commandeId, item.champion_id, item.skin_id || null, item.quantite, item.price || 0]
+            );
+        }
+
+        // 4. Nettoyage
+        await connection.query('DELETE FROM panier WHERE user_id = ?', [user_id]);
+
+        await connection.commit();
+        res.status(201).json({ message: 'Commande réussie' });
+
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ code: '500', message: 'Erreur lors de la validation de la commande.' });
-    }
-};
+    if (connection) await connection.rollback();
+    
+    // CE LOG EST CRUCIAL : il va forcer l'affichage de l'erreur SQL dans ton terminal
+    console.log("----------------- ERREUR SQL DETECTEE -----------------");
+    console.error(error); 
+    console.log("-------------------------------------------------------");
+
+    res.status(500).json({ 
+        code: '500', 
+        message: error.message,
+        sqlMessage: error.sqlMessage // Renvoie l'erreur SQL au navigateur pour débugger
+    });
+} finally {
+    if (connection) connection.release();
+}};
 
 const getCommandes = async (req, res) => {
     try {
@@ -369,6 +433,7 @@ module.exports = {
     getSimilarChampions,
     filterChampions,
     sortChampions,
+    applyRandomPromotions,
     register,
     login,
     getPanier,

@@ -28,3 +28,4 @@ body {
     grid-template-columns: repeat(5, 0fr); /* ou repeat(6, 1fr) */
     gap: 0;
 }
+

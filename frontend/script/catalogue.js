@@ -28,9 +28,11 @@ function toggleFilterMenu() {
 }
 
 async function applyFilters() {
+    // 1. Récupération des valeurs des filtres
     const roles = Array.from(document.querySelectorAll('.filter-role:checked')).map(el => el.value);
     const diffs = Array.from(document.querySelectorAll('.filter-diff:checked')).map(el => el.value);
     const genres = Array.from(document.querySelectorAll('.filter-genre:checked')).map(el => el.value);
+    const sortValue = document.getElementById('filter-sort').value; // Récupère "asc" ou "desc"
 
     let params = new URLSearchParams();
     if (roles.length) params.append('roles', roles.join(','));
@@ -43,12 +45,20 @@ async function applyFilters() {
         const res = await fetch(url);
         const list = await res.json();
         
-        // On doit re-fetcher les détails pour avoir les skins (pour l'effet hover)
+        // 2. Fetch des détails (nécessaire pour avoir le prix et les skins)
         const detailPromises = list.map(champ => 
             fetch(`${API_URL}/${champ.id}`).then(res => res.json())
         );
-        const fullData = await Promise.all(detailPromises);
+        let fullData = await Promise.all(detailPromises);
         
+        // 3. Tri manuel des données reçues (Logique côté client)
+        if (sortValue === 'asc') {
+            fullData.sort((a, b) => a.price - b.price); // Trie du plus petit au plus grand
+        } else if (sortValue === 'desc') {
+            fullData.sort((a, b) => b.price - a.price); // Trie du plus grand au plus petit
+        }
+        
+        // 4. Affichage
         renderChampions(fullData);
         toggleFilterMenu();
     } catch (err) {
@@ -69,13 +79,28 @@ const renderChampions = (champions) => {
             ? `../Backend/${champ.skins[0].url_loadscreen}` 
             : defaultImg;
 
+        // Calcul de la promotion
+        const hasPromo = champ.reduction > 0;
+        const finalPrice = hasPromo 
+            ? Math.floor(champ.price * (1 - champ.reduction / 100)) 
+            : champ.price;
+
+        // Génération du HTML pour le prix
+        const priceHTML = hasPromo 
+            ? `<div class="champ-price promo-active">
+                <span class="old-price">${champ.price}</span>
+                <span class="current-price">${finalPrice} ${champ.devise}</span>
+                <span class="badge-discount">-${Math.round(champ.reduction)}%</span>
+               </div>`
+            : `<div class="champ-price">${champ.price} ${champ.devise}</div>`;
+
         return `
         <div class="card champion-card" data-id="${champ.id}" style="cursor: pointer;">
             <div class="banner">
                 <div class="img-champ">
                     <img class="champ-img default" src="${defaultImg}" alt="${champ.name}">
                     <img class="champ-img hover" src="${hoverImg}" alt="${champ.name} skin">
-                    <div class="champ-price">${champ.price} ${champ.devise}</div>
+                    ${priceHTML}
                 </div>
                 
                 <img id="poro_banner" src="frontend/img/poro_bannerv3.png" alt="Decoration">

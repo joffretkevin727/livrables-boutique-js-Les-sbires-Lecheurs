@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Livraison - Poro Corp</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="frontend/css/header.css">
     <link rel="stylesheet" href="frontend/css/delivery.css">
 </head>
-<body class="bg-[#00395f] text-white">
-    <header>
+<body class="delivery-page">
+    <header class="main-header">
         <button class="btnporo" onclick="window.location.href='catalogue'">
             <img class="poro" src="frontend/img/poro.png" alt="Logo">
         </button>
@@ -18,37 +17,37 @@
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto p-8">
-        <h2 class="text-3xl text-[#d4af37] font-bold mb-8 uppercase tracking-widest text-center">Finaliser l'expédition</h2>
+    <main class="delivery-container">
+        <h2 class="page-title">Finaliser l'expédition</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <section class="bg-[#002a46] p-6 rounded-lg border border-sky-400">
-                <h3 class="text-xl text-sky-400 mb-4">Choisir une adresse</h3>
-                <div id="address-container" class="space-y-3">
+        <div class="delivery-grid">
+            <section class="delivery-card border-sky">
+                <h3 class="card-subtitle text-sky">Choisir une adresse</h3>
+                <div id="address-container" class="address-list">
                     </div>
                 
-                <hr class="my-6 border-gray-700">
+                <hr class="separator">
                 
-                <h3 class="text-lg text-[#d4af37] mb-2">Ajouter une nouvelle adresse</h3>
-                <form id="add-address-form" class="space-y-3">
-                    <input type="text" id="street" placeholder="Rue" class="w-full bg-[#001524] p-2 border border-gray-600 rounded" required>
-                    <div class="flex gap-2">
-                        <input type="text" id="city" placeholder="Ville" class="w-1/2 bg-[#001524] p-2 border border-gray-600 rounded" required>
-                        <input type="text" id="zip" placeholder="Code Postal" class="w-1/2 bg-[#001524] p-2 border border-gray-600 rounded" required>
+                <h3 class="form-title text-gold">Ajouter une nouvelle adresse</h3>
+                <form id="add-address-form" class="address-form">
+                    <input type="text" id="street" placeholder="Rue" class="input-field" required>
+                    <div class="input-group">
+                        <input type="text" id="city" placeholder="Ville" class="input-field half" required>
+                        <input type="text" id="zip" placeholder="Code Postal" class="input-field half" required>
                     </div>
-                    <input type="text" id="country" placeholder="Pays" class="w-full bg-[#001524] p-2 border border-gray-600 rounded" required>
-                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 py-2 rounded font-bold">Enregistrer l'adresse</button>
+                    <input type="text" id="country" placeholder="Pays" class="input-field" required>
+                    <button type="submit" class="save-address-btn">Enregistrer l'adresse</button>
                 </form>
             </section>
 
-            <section class="bg-[#002a46] p-6 rounded-lg border border-[#d4af37] h-fit">
-                <h3 class="text-xl text-[#d4af37] mb-4">Total de la commande</h3>
-                <div id="summary-items" class="text-sm text-gray-300 mb-4 border-b border-gray-700 pb-4">
+            <section class="delivery-card border-gold summary-card">
+                <h3 class="card-subtitle text-gold">Total de la commande</h3>
+                <div id="summary-items" class="summary-details">
                     </div>
-                <div class="text-2xl font-bold text-center py-4">
+                <div class="final-price-display">
                     Total : <span id="final-total">0</span> RP
                 </div>
-                <button onclick="placeOrder()" id="btn-pay" class="w-full bg-[#d4af37] text-[#001524] py-4 rounded font-bold uppercase hover:scale-105 transition-transform">
+                <button onclick="placeOrder()" id="btn-pay" class="confirm-pay-btn">
                     Confirmer et Payer
                 </button>
             </section>

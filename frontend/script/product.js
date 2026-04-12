@@ -58,13 +58,28 @@ function createSlide(url) {
 function renderInfo(data) {
     const limit = 150;
     const desc = data.description || "";
+    
+    // Logique de promotion
+    const hasPromo = data.reduction > 0;
+    const finalPrice = hasPromo 
+        ? Math.floor(data.price * (1 - data.reduction / 100)) 
+        : data.price;
+
+    const priceHtml = hasPromo 
+        ? `<p class="price">
+            <span style="text-decoration: line-through; color: #ff4e4e; font-size: 0.8em; margin-right: 8px;">${data.price} ${data.devise}</span>
+            <span style="color: #d4af37; font-weight: bold;">${finalPrice} ${data.devise}</span>
+            <span style="background: #c0392b; color: white; font-size: 0.7em; padding: 2px 5px; border-radius: 3px; margin-left: 10px;">-${Math.round(data.reduction)}%</span>
+           </p>`
+        : `<p class="price">Prix : ${data.price} ${data.devise}</p>`;
+
     let descHtml = desc.length > limit 
         ? `<p id="desc-container"><span>${desc.substring(0, limit)}</span><span id="more-text" style="display:none">${desc.substring(limit)}</span><button id="toggle-btn" onclick="toggleDesc()">Afficher la suite</button></p>`
         : `<p>${desc}</p>`;
 
     infoChamp.innerHTML = `
         <h1>${data.name}</h1>
-        <p class="price">Prix : ${data.price} ${data.devise}</p>
+        ${priceHtml}
         ${descHtml}
         <div class="action-zone">
             <button class="btn-select" onclick="addToPending()">Sélectionner ce skin</button>

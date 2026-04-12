@@ -106,7 +106,6 @@ const getSimilarChampions = (id) => {
         id, id, id, id, id, id]);
 };
 
-// model.js
 const filterChampions = (filters) => {
     // On part d'une requête de base qui récupère aussi l'image par défaut
     let query = `
@@ -149,6 +148,15 @@ const sortChampions = (order) => {
     return db.query(`SELECT * FROM champions ORDER BY price ${direction}`);
 };
 
+const applyRandomPromotions = async () => {
+    await db.query("UPDATE champions SET reduction = 0"); // Reset
+    return db.query(`
+        UPDATE champions 
+        SET reduction = ELT(FLOOR(1 + (RAND() * 4)), 10, 20, 50, 75)
+        WHERE id IN (SELECT id FROM (SELECT id FROM champions ORDER BY RAND() LIMIT 10) as t)
+    `); // Applique 10 réductions
+};
+
 // ==================
 // USERS
 // ==================
@@ -168,10 +176,6 @@ const createUser = (name, lastname, email, password) => {
 // PANIER
 // ==================
 
-// ==================
-// PANIER (Version Corrigée)
-// ==================
-
 const getPanierByUser = (user_id) => {
     return db.query(`
         SELECT 
@@ -180,6 +184,12 @@ const getPanierByUser = (user_id) => {
             p.skin_id,
             c.name AS champion_name, 
             c.price, 
+            c.reduction,
+            -- Calcul du prix remisé si une réduction existe
+            CASE 
+                WHEN c.reduction > 0 THEN FLOOR(c.price * (1 - c.reduction / 100))
+                ELSE c.price 
+            END AS final_price,
             c.devise,
             COALESCE(s.url_loadscreen, ci.url_loadscreen) AS final_url_loadscreen
         FROM panier p
@@ -236,8 +246,8 @@ const getCommandesByUser = (user_id) => {
 
 const updateStock = (champion_id, quantite) => {
     return db.query(
-        'UPDATE champions SET stock = stock - ? WHERE id = ?',
-        [quantite, champion_id]
+        'UPDATE champions SET stock = stock - ? WHERE id = ? AND stock >= ?',
+        [quantite, champion_id, quantite]
     );
 };
 
@@ -289,6 +299,7 @@ module.exports = {
     getSimilarChampions,
     filterChampions,
     sortChampions,
+    applyRandomPromotions,
     getUserByEmail,
     createUser,
     getPanierByUser,

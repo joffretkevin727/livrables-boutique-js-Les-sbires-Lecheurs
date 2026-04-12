@@ -20,3 +20,105 @@ table th {
 strong {
     color: #4fc3f7;
 }
+
+/* Base */
+.profil-page {
+    background-color: #00395f;
+    color: white;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+/* Header */
+.main-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid #38bdf8;
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo { width: 3rem; }
+
+.header-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #d4af37;
+}
+
+/* Layout */
+.profil-container {
+    max-width: 56rem; /* 4xl */
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .info-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Cards */
+.info-card {
+    background-color: #002a46;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.border-gold { border: 1px solid #d4af37; }
+.border-sky { border: 1px solid #38bdf8; }
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.text-gold { color: #d4af37; }
+.text-sky { color: #38bdf8; }
+
+/* Table */
+.history-section { margin-top: 2rem; }
+
+.table-wrapper { overflow-x: auto; }
+
+.orders-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.table-header-row { border-bottom: 1px solid #4b5563; }
+
+.orders-table th, .orders-table td { padding: 0.5rem 0; }
+
+/* Buttons & Actions */
+.action-footer {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.cart-link-btn {
+    background-color: #d4af37;
+    color: #001524;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-btn {
+    color: #f87171;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-btn:hover { text-decoration: underline; }

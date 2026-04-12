@@ -15,3 +15,121 @@ label:has(input:checked) {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* Base de la page */
+.delivery-page {
+    background-color: #00395f;
+    color: white;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+.delivery-container {
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.page-title {
+    font-size: 1.875rem;
+    color: #d4af37;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+}
+
+/* Grille et Cartes */
+.delivery-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+    .delivery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.delivery-card {
+    background-color: #002a46;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.summary-card { height: fit-content; }
+
+.border-sky { border: 1px solid #38bdf8; }
+.border-gold { border: 1px solid #d4af37; }
+
+.card-subtitle { font-size: 1.25rem; margin-bottom: 1rem; }
+.text-sky { color: #38bdf8; }
+.text-gold { color: #d4af37; }
+
+/* Formulaire et Inputs */
+.address-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.separator {
+    margin: 1.5rem 0;
+    border: none;
+    border-top: 1px solid #374151;
+}
+
+.address-form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.input-field {
+    width: 100%;
+    background-color: #001524;
+    padding: 0.5rem;
+    border: 1px solid #4b5563;
+    border-radius: 0.25rem;
+    color: white;
+    box-sizing: border-box;
+}
+
+.input-group { display: flex; gap: 0.5rem; }
+.half { width: 50%; }
+
+/* Boutons */
+.save-address-btn {
+    width: 100%;
+    background-color: #0284c7;
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.save-address-btn:hover { background-color: #0ea5e9; }
+
+.summary-details {
+    font-size: 0.875rem;
+    color: #d1d5db;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 1rem;
+}
+
+.final-price-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.confirm-pay-btn {
+    width: 100%;
+    background-color: #d4af37;
+    color: #001524;
+    padding: 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.confirm-pay-btn:hover { transform: scale(1.05); }

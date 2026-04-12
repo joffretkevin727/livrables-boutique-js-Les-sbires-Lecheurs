@@ -47,3 +47,110 @@ header {
     outline: none;
     border-radius: 4px;
 }
+
+/* Conteneur du menu déroulant */
+.filter-dropdown {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 0.5rem;
+    width: 18rem; /* w-72 */
+    background-color: #002a46;
+    border: 1px solid #0c4a6e; /* border-sky-900 */
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    padding: 1.5rem;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Structure interne */
+.filter-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: white;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-title {
+    color: #d4af37;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #0c4a6e;
+    padding-bottom: 0.25rem;
+}
+
+/* Dispositions (Grid et Flex) */
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.filter-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.filter-row {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+/* Éléments de formulaire */
+.filter-select {
+    width: 100%;
+    background-color: #011a2e;
+    color: white;
+    font-size: 0.875rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #0c4a6e;
+    outline: none;
+}
+
+.btn-apply {
+    width: 100%;
+    background-color: #d4af37;
+    color: #001524;
+    padding: 0.5rem 0;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-apply:hover {
+    background-color: #eab308; /* yellow-500 */
+}
+
+/* Utilitaires de positionnement restants */
+.relative { position: relative; }
+.inline-block { display: inline-block; }
+.text-left { text-align: left; }

@@ -99,3 +99,39 @@
     transform: translateX(-50%);
     z-index: 6;
 }
+
+/* Container du prix */
+.promo-active {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+}
+
+/* Ancien prix barré */
+.old-price {
+    text-decoration: line-through;
+    color: #ff4e4e;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Prix actuel mis en avant */
+.current-price {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+/* Petit badge de pourcentage */
+.badge-discount {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #c0392b;
+    color: white;
+    font-size: 10px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}

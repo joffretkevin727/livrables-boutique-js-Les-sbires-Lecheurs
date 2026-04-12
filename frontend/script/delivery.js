@@ -52,40 +52,59 @@ document.getElementById('add-address-form').addEventListener('submit', async (e)
 
 // Affiche le résumé du panier
 // livraison.js
+// ... (haut du fichier inchangé)
+
 async function loadSummary() {
     try {
         const res = await fetch(`http://localhost:6767/panier/${user.id}`);
         const items = await res.json();
-        
-        console.log("Articles reçus pour le résumé :", items); // Debugging
+
+        console.log("Vérification des clés :", items[0]); // Regarde bien les noms des propriétés ici
+
+        cartItems = items.map(item => {
+            // Si l'id du champion arrive sous la clé 'id', on la prend.
+            // Sinon on cherche 'champion_id'.
+            const cID = item.id || item.champion_id;
+
+            const price = parseFloat(item.price);
+            const reduction = parseFloat(item.reduction || 0);
+            const unitPrice = reduction > 0 ? Math.floor(price * (1 - reduction / 100)) : price;
+
+            return {
+                champion_id: cID,
+                skin_id: item.skin_id || null,
+                quantite: item.quantite,
+                price: unitPrice
+            };
+        });
 
         const summary = document.getElementById('summary-items');
         totalAmount = 0;
 
         if (items.length > 0) {
             summary.innerHTML = items.map(item => {
-                // IMPORTANT : Vérifie que item.price est bien un nombre
+                const reduction = parseFloat(item.reduction || 0);
                 const price = parseFloat(item.price);
+                const unitPrice = reduction > 0 ? Math.floor(price * (1 - reduction / 100)) : price;
                 const qty = parseInt(item.quantite);
-                
-                totalAmount += (price * qty);
 
-                // On utilise champion_name (ou displayName si tu as gardé la logique des skins)
-                return `<div class="flex justify-between border-b border-gray-800 py-1">
-                            <span>${qty}x ${item.champion_name}</span>
-                            <span>${price * qty} RP</span>
-                        </div>`;
+                totalAmount += (unitPrice * qty);
+
+                return `
+                    <div class="flex justify-between border-b border-gray-800 py-1">
+                        <span>${qty}x ${item.champion_name || 'Article'}</span>
+                        <span>${unitPrice * qty} RP</span>
+                    </div>`;
             }).join('');
 
             document.getElementById('final-total').innerText = totalAmount;
-        } else {
-            summary.innerHTML = "<p>Votre panier est vide.</p>";
-            document.getElementById('final-total').innerText = "0";
         }
     } catch (err) {
-        console.error("Erreur résumé commande :", err);
+        console.error("Erreur résumé :", err);
     }
 }
+
+// ... (placeOrder reste identique, elle utilisera maintenant cartItems bien rempli)
 
 // Crée la commande finale
 async function placeOrder() {
@@ -95,9 +114,9 @@ async function placeOrder() {
         user_id: user.id,
         adresse_id: selectedAddressId,
         total: totalAmount,
-        items: cartItems 
+        items: cartItems
     };
-
+    console.log("Données envoyées au serveur :", orderData);
     const res = await fetch('http://localhost:6767/commandes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
