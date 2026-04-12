@@ -4,10 +4,9 @@ const infoChamp = document.querySelector('.info-champ');
 
 let currentIndex = 0;
 let allCenteredImages = []; 
-let skinNames = []; 
+let skinDataArray = []; // Stocke les objets {id, name} de la DB
 let currentChampName = ""; 
-let pendingSelection = []; // Sélection temporaire
-let cart = JSON.parse(localStorage.getItem('cart')) || []; // Panier définitif
+let pendingSelection = []; // Sélection temporaire avant envoi BDD
 
 const urlParams = new URLSearchParams(window.location.search);
 const champId = urlParams.get('id');
@@ -19,24 +18,31 @@ function extractSkinName(url) {
     return cleanName.replace(/_/g, " ");
 }
 
-// Récupération des données
+// Récupération des données du champion et de ses skins
 fetch(`http://localhost:6767/champions/${champId}`)
     .then(res => res.json())
     .then(data => {
         track.innerHTML = "";
         allCenteredImages = [];
-        skinNames = []; 
+        skinDataArray = []; 
         currentChampName = data.name;
 
+        // 1. Ajout du skin Original (skin_id est null en BDD)
         allCenteredImages.push("/Backend/" + data.url_centered);
-        skinNames.push("Original"); 
+        skinDataArray.push({ id: null, name: "Original" }); 
         createSlide("/Backend/" + data.url_loadscreen);
 
-        data.skins.forEach(skin => {
-            allCenteredImages.push("/Backend/" + skin.url_centered);
-            skinNames.push(extractSkinName(skin.url_centered));
-            createSlide("/Backend/" + skin.url_loadscreen);
-        });
+        // 2. Ajout des skins récupérés de la base de données
+        if (data.skins) {
+            data.skins.forEach(skin => {
+                allCenteredImages.push("/Backend/" + skin.url_centered);
+                skinDataArray.push({ 
+                    id: skin.id, // ID unique de la table 'skins'
+                    name: extractSkinName(skin.url_centered) 
+                });
+                createSlide("/Backend/" + skin.url_loadscreen);
+            });
+        }
 
         renderInfo(data);
         updateCarousel();
@@ -51,7 +57,7 @@ function createSlide(url) {
 
 function renderInfo(data) {
     const limit = 150;
-    const desc = data.description;
+    const desc = data.description || "";
     let descHtml = desc.length > limit 
         ? `<p id="desc-container"><span>${desc.substring(0, limit)}</span><span id="more-text" style="display:none">${desc.substring(limit)}</span><button id="toggle-btn" onclick="toggleDesc()">Afficher la suite</button></p>`
         : `<p>${desc}</p>`;
@@ -82,7 +88,7 @@ function updateCarousel() {
     
     const h1 = document.querySelector('.info-champ h1');
     if (h1 && currentChampName) {
-        h1.innerHTML = `${currentChampName} <i style="font-weight: 300; font-size: 0.8em; margin-left: 15px; opacity: 0.7;">"${skinNames[currentIndex]}"</i>`;
+        h1.innerHTML = `${currentChampName} <i style="font-weight: 300; font-size: 0.8em; margin-left: 15px; opacity: 0.7;">"${skinDataArray[currentIndex].name}"</i>`;
     }
 
     Array.from(slides).forEach(s => s.classList.remove('active'));
@@ -101,14 +107,23 @@ function toggleDesc() {
 
 // LOGIQUE PANIER
 function addToPending() {
-    const itemId = `${champId}_${currentIndex}`;
-    if (pendingSelection.find(i => i.id === itemId) || cart.find(i => i.id === itemId)) {
-        alert("Déjà sélectionné ou dans le panier.");
+    // currentIndex est l'index actuel du carrousel
+    const currentSkin = skinDataArray[currentIndex]; 
+
+    // Debug pour vérifier ce que tu vas envoyer (Ouvre ta console F12)
+    console.log("Skin sélectionné :", currentSkin);
+
+    const uniqueTempId = `skin-${currentSkin.id || 'base'}`;
+
+    if (pendingSelection.find(i => i.tempId === uniqueTempId)) {
+        alert("Déjà sélectionné.");
         return;
     }
+
     pendingSelection.push({
-        id: itemId,
-        name: `${currentChampName} (${skinNames[currentIndex]})`
+        tempId: uniqueTempId,
+        realSkinId: currentSkin.id, // Ici, currentSkin.id doit valoir l'ID de la DB (ex: 42)
+        name: `${currentChampName} (${currentSkin.name})`
     });
     updateSelectionUI();
 }
@@ -120,7 +135,7 @@ function updateSelectionUI() {
     list.innerHTML = pendingSelection.map((item, index) => `
         <li>
             ${item.name}
-            <span class="remove-item" onclick="removeFromPending(${index})">&times;</span>
+            <span class="remove-item" style="cursor:pointer; color:red; margin-left:10px;" onclick="removeFromPending(${index})">&times;</span>
         </li>
     `).join('');
     
@@ -132,12 +147,36 @@ function removeFromPending(index) {
     updateSelectionUI();
 }
 
-function confirmSelection() {
-    cart = [...cart, ...pendingSelection];
-    localStorage.setItem('cart', JSON.stringify(cart));
-    pendingSelection = [];
-    updateSelectionUI();
-    showPopup();
+async function confirmSelection() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (!user) {
+        alert("Vous devez être connecté pour ajouter des articles au panier.");
+        window.location.href = "connexion";
+        return;
+    }
+
+    try {
+        for (const item of pendingSelection) {
+            await fetch('http://localhost:6767/panier', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: user.id,
+                    champion_id: parseInt(champId),
+                    skin_id: item.realSkinId, // Envoie l'ID unique (ou null si original)
+                    quantite: 1
+                })
+            });
+        }
+
+        pendingSelection = [];
+        updateSelectionUI();
+        showPopup();
+    } catch (error) {
+        console.error("Erreur lors de l'ajout au panier:", error);
+        alert("Erreur de connexion au serveur.");
+    }
 }
 
 function showPopup() { document.getElementById('cart-popup').style.display = 'flex'; }

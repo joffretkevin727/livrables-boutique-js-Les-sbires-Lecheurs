@@ -1,0 +1,14 @@
+/* panier.css */
+body {
+    background-image: radial-gradient(circle at top, #004a7c 0%, #00395f 100%);
+    min-height: 100vh;
+}
+
+#cart-items > div {
+    transition: all 0.3s ease;
+}
+
+#cart-items > div:hover {
+    border-color: #d4af37;
+    background: #003254;
+}

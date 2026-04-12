@@ -1,0 +1,17 @@
+main { animation: fadeIn 0.5s ease-in; }
+
+input:focus {
+    border-color: #d4af37;
+    outline: none;
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+}
+
+label:has(input:checked) {
+    border-color: #d4af37;
+    background-color: #00395f;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
