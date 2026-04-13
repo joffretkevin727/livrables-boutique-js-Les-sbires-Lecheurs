@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Poro Corp</title>
+    <link rel="stylesheet" href="frontend/css/register.css">
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="register-box">
+            <img src="frontend/img/poro.png" alt="Poro Logo" class="register-logo">
+            <h2>Rejoindre l'aventure</h2>
+            <form id="registerForm">
+                <div class="input-group">
+                    <label for="name">Prénom</label>
+                    <input type="text" id="name" required placeholder="Garen">
+                </div>
+                <div class="input-group">
+                    <label for="lastname">Nom</label>
+                    <input type="text" id="lastname" required placeholder="Crownguard">
+                </div>
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required placeholder="nom@exemple.com">
+                </div>
+                <div class="input-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" required placeholder="••••••••">
+                </div>
+                <div class="input-group">
+                    <label for="confirmPassword">Confirmer le mot de passe</label>
+                    <input type="password" id="confirmPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-register">Créer mon compte</button>
+            </form>
+            <p class="footer-text">Déjà inscrit ? <a href="connexion">Se connecter</a></p>
+        </div>
+    </div>
+    <script src="frontend/script/register.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Profil - Poro Corp</title>
+    <link rel="stylesheet" href="frontend/css/profil.css">
+</head>
+<body class="profil-page">
+    <header class="main-header">
+        <a href="catalogue"><img src="frontend/img/poro.png" class="logo"></a>
+        <h1 class="header-title">Espace Invocateur</h1>
+        <button onclick="logout()" class="logout-btn top-logout">Déconnexion</button>
+    </header>
+
+    <main class="profil-container">
+        <div class="info-grid">
+            <section class="info-card border-gold">
+                <h2 class="card-title text-gold">Mes Informations</h2>
+                <p><strong>Prénom :</strong> <span id="user-name"></span></p>
+                <p><strong>Nom :</strong> <span id="user-lastname"></span></p>
+                <p><strong>Email :</strong> <span id="user-email"></span></p>
+            </section>
+
+            <section class="info-card border-sky">
+                <h2 class="card-title text-sky">Mes Adresses</h2>
+                <div id="address-list" class="address-list"></div>
+            </section>
+        </div>
+
+        <section class="info-card border-sky history-section">
+            <h2 class="card-title text-sky">Historique des commandes</h2>
+            <div class="table-wrapper">
+                <table class="orders-table">
+                    <thead>
+                        <tr class="table-header-row">
+                            <th>N° Commande</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-list"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="action-footer">
+            <button onclick="window.location.href='cart'" class="cart-link-btn">
+                🛒 Mon Panier
+            </button>
+            <a href="/favoris" class="cart-link-btn">Favoris</a>
+            <button onclick="logout()" class="logout-btn">Déconnexion</button>
+        </section>
+    </main>
+
+    <script src="frontend/script/profil.js"></script>
+</body>
+</html>

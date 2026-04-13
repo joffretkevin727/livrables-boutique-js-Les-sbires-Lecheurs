@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poro Corp - Favoris</title>
+    <link rel="stylesheet" href="frontend/css/favoris.css">
+    <link rel="stylesheet" href="frontend/css/card.css">
+    <link rel="stylesheet" href="frontend/css/header.css">
+</head>
+
+<body>
+    <header>
+        <button class="btnporo" onclick="window.location.href='/catalogue'">
+            <img class="poro" src="/frontend/img/poro.png" alt="Logo">
+        </button>
+
+        <div class="tbtn">
+            <h1 class="page-title">Mes favoris</h1>
+            <button class="btn" onclick="window.location.href='/profil'">Profil</button>
+        </div>
+    </header>
+
+    <main class="favoris-page">
+        <section class="favoris-header">
+            <h2>Champions favoris</h2>
+            <p>Retrouve ici tous les champions que tu as ajoutés en favoris.</p>
+        </section>
+
+        <div class="tableau" id="favoris-container">
+            <!-- Les cartes seront injectées ici par favoris.js -->
+        </div>
+    </main>
+
+    <script src="/frontend/script/favoris.js"></script>
+</body>
+</html>

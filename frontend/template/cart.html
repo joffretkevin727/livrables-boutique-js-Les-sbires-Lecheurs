@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Panier - Poro Corp</title>
+    <link rel="stylesheet" href="frontend/css/cart.css">
+</head>
+<body class="cart-page">
+    <header class="main-header">
+        <a href="catalogue" class="back-link">← Retour Boutique</a>
+        <h1 class="page-title">Mon Panier</h1>
+        <div id="user-display" class="user-info"></div>
+    </header>
+
+    <main class="cart-container">
+        <div id="cart-content" class="cart-grid">
+            <div class="cart-items-list" id="cart-items"></div>
+
+            <aside class="cart-summary">
+                <h2 class="summary-title">Résumé</h2>
+                <div class="summary-row">
+                    <span>Sous-total</span>
+                    <span id="subtotal">0 RP</span>
+                </div>
+                <div class="summary-row total-row">
+                    <span>Total</span>
+                    <span id="total-price">0 RP</span>
+                </div>
+                <button onclick="proceedToCheckout()" class="btn-checkout">
+                    Passer à la livraison
+                </button>
+            </aside>
+        </div>
+    </main>
+    <script src="frontend/script/cart.js"></script>
+</body>
+</html>

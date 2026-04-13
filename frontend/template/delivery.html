@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Livraison - Poro Corp</title>
+    <link rel="stylesheet" href="frontend/css/header.css">
+    <link rel="stylesheet" href="frontend/css/delivery.css">
+</head>
+<body class="delivery-page">
+    <header class="main-header">
+        <button class="btnporo" onclick="window.location.href='catalogue'">
+            <img class="poro" src="frontend/img/poro.png" alt="Logo">
+        </button>
+        <div class="tbtn">
+            <button class="btn" onclick="window.location.href='cart'">Retour Panier</button>
+            <button class="btn" onclick="window.location.href='profil'">Profil</button>
+        </div>
+    </header>
+
+    <main class="delivery-container">
+        <h2 class="page-title">Finaliser l'expédition</h2>
+
+        <div class="delivery-grid">
+            <section class="delivery-card border-sky">
+                <h3 class="card-subtitle text-sky">Choisir une adresse</h3>
+                <div id="address-container" class="address-list">
+                    </div>
+                
+                <hr class="separator">
+                
+                <h3 class="form-title text-gold">Ajouter une nouvelle adresse</h3>
+                <form id="add-address-form" class="address-form">
+                    <input type="text" id="street" placeholder="Rue" class="input-field" required>
+                    <div class="input-group">
+                        <input type="text" id="city" placeholder="Ville" class="input-field half" required>
+                        <input type="text" id="zip" placeholder="Code Postal" class="input-field half" required>
+                    </div>
+                    <input type="text" id="country" placeholder="Pays" class="input-field" required>
+                    <button type="submit" class="save-address-btn">Enregistrer l'adresse</button>
+                </form>
+            </section>
+
+            <section class="delivery-card border-gold summary-card">
+                <h3 class="card-subtitle text-gold">Total de la commande</h3>
+                <div id="summary-items" class="summary-details">
+                    </div>
+                <div class="final-price-display">
+                    Total : <span id="final-total">0</span> RP
+                </div>
+                <button onclick="placeOrder()" id="btn-pay" class="confirm-pay-btn">
+                    Confirmer et Payer
+                </button>
+            </section>
+        </div>
+    </main>
+
+    <script src="frontend/script/delivery.js"></script>
+</body>
+</html>

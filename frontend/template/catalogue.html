@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poro Corp</title>
+    <link rel="stylesheet" href="frontend/css/catalogue.css">
+    <link rel="stylesheet" href="frontend/css/card.css">
+    <link rel="stylesheet" href="frontend/css/header.css">
+</head>
+
+<body>
+    <header>
+        <button class="btnporo" onclick="window.location.href='catalogue'">
+            <img class="poro" src="frontend/img/poro.png" alt="Logo">
+        </button>
+        <div class="tbtn">
+            <div class="relative inline-block text-left">
+                <button class="btn" onclick="toggleFilterMenu()">Filtres</button>
+
+                <div id="filter-menu" class="filter-dropdown hidden">
+                    <div class="filter-content">
+                        <div class="filter-group">
+                            <p class="filter-title">Rôles</p>
+                            <div class="filter-grid">
+                                <label class="filter-label"><input type="checkbox" value="Assassin" class="filter-role">
+                                    Assassin</label>
+                                <label class="filter-label"><input type="checkbox" value="Combattant"
+                                        class="filter-role"> Combattant</label>
+                                <label class="filter-label"><input type="checkbox" value="Mage" class="filter-role">
+                                    Mage</label>
+                                <label class="filter-label"><input type="checkbox" value="Tireur" class="filter-role">
+                                    Tireur</label>
+                                <label class="filter-label"><input type="checkbox" value="Support" class="filter-role">
+                                    Support</label>
+                                <label class="filter-label"><input type="checkbox" value="Tank" class="filter-role">
+                                    Tank</label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <p class="filter-title">Difficulté</p>
+                            <div class="filter-stack">
+                                <label class="filter-label"><input type="checkbox" value="Facile" class="filter-diff">
+                                    Facile</label>
+                                <label class="filter-label"><input type="checkbox" value="Moyen" class="filter-diff">
+                                    Moyen</label>
+                                <label class="filter-label"><input type="checkbox" value="Difficile"
+                                        class="filter-diff"> Difficile</label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <p class="filter-title">Genre</p>
+                            <div class="filter-row">
+                                <label class="filter-label"><input type="checkbox" value="Masculin"
+                                        class="filter-genre"> M</label>
+                                <label class="filter-label"><input type="checkbox" value="Féminin" class="filter-genre">
+                                    F</label>
+                                <label class="filter-label"><input type="checkbox" value="Autre" class="filter-genre">
+                                    Autre</label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <p class="filter-title">Trier par prix</p>
+                            <select id="filter-sort" class="filter-select">
+                                <option value="">Aucun</option>
+                                <option value="asc">Croissant ↑</option>
+                                <option value="desc">Décroissant ↓</option>
+                            </select>
+                        </div>
+
+                        <button onclick="applyFilters()" class="btn-apply">
+                            Appliquer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search">
+                <input type="text" id="searchInput" placeholder="Rechercher..." class="search-input" />
+            </div>
+            <button class="btn" onclick="window.location.href='profil'">Profil</button>
+        </div>
+    </header>
+    <!--grille de perso-->
+    <div class="tableau" id="catalog-container">
+
+    </div>
+    <script src="frontend/script/catalogue.js"></script>
+</body>
+
+</html>

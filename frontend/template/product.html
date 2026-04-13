@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poro Corp</title>
+    <link rel="stylesheet" href="/frontend/css/product.css">
+    <link rel="stylesheet" href="/frontend/css/header.css">
+</head>
+
+<body>
+    <header>
+        <button class="btnporo" onclick="window.location.href='catalogue'">
+            <img class="poro" src="frontend/img/poro.png" alt="Logo">
+        </button>
+        <div class="tbtn">
+            <button class="btn" onclick="window.location.href='cart'">Panier</button>
+            <button class="btn" onclick="window.location.href='profil'">Profil</button>
+        </div>
+    </header>
+    <main>
+        <div class="carousel-container">
+            <div class="carousel-viewport">
+                <div id="track" class="carousel-track">
+                </div>
+            </div>
+
+            <button class="btn-nav prev" onclick="move(-1)">&#10094;</button>
+            <button class="btn-nav next" onclick="move(1)">&#10095;</button>
+        </div>
+        <div class="achat">
+            <img id="big-img" src="" alt="modify">
+            <div class="info-champ">
+                <div class="action-zone">
+                    <h3>Skins à ajouter :</h3>
+                    <ul id="selected-skins-list">
+                    </ul>
+                    <button id="confirm-all" onclick="confirmSelection()" style="display:none;">
+                        Confirmer la sélection
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="cart-popup" class="popup-overlay">
+            <div class="popup-content">
+                <span class="close-popup" onclick="closePopup()">&times;</span>
+                <p id="popup-message">Article(s) ajouté(s) au panier !</p>
+                <div class="popup-buttons">
+                    <button onclick="window.location.href='/catalogue'">Revenir au catalogue</button>
+                    <button onclick="window.location.href='/cart'">Aller au panier</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/frontend/script/product.js"></script>
+</body>
+
+</html>
