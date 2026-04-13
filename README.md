@@ -1,86 +1,91 @@
-📥 PORO CORP - BOUTIQUE LEAGUE OF LEGENDS 📥
-Un projet e-commerce complet réalisé en architecture MVC (Node.js, Express, MySQL).
+# Poro Corp
 
-📖 PRÉSENTATION DU PROJET
-Poro Corp est une application web permettant de parcourir les champions de League of Legends, de visualiser leurs skins, de les ajouter à un panier et de simuler une commande.
+## Description
 
-Front-end : HTML5, CSS3, Tailwind CSS, JavaScript (Vanilla)
+Poro Corp est une application web permettant de consulter un catalogue de champions, d’interagir avec leurs fiches détaillées et de gérer un système complet incluant les favoris, le panier et les commandes.
 
-Back-end : Node.js, Express
+Le projet repose sur une architecture client-serveur avec un frontend en HTML/CSS/JavaScript et un backend en Node.js avec Express, connecté à une base de données MySQL.
 
-Base de données : MySQL (Architecture relationnelle)
+---
 
-✨ FONCTIONNALITÉS PRINCIPALES
-🛡️ Gestion des Produits
-Affichage dynamique du catalogue via une API REST.
+## Fonctionnalités principales
 
-Système de filtrage avancé par Rôle, Difficulté et Genre via menu déroulant.
+- Affichage d’un catalogue dynamique de champions
+- Filtres par rôle, difficulté et genre
+- Tri par prix
+- Barre de recherche en temps réel
+- Affichage détaillé d’un champion
+- Système de favoris lié à l’utilisateur connecté
+- Gestion d’un panier
+- Création de commandes
+- Gestion des utilisateurs (inscription, connexion)
+- Gestion des adresses de livraison
 
-Recherche en temps réel par nom de champion.
+---
 
-Tri des prix (croissant/décroissant).
+## Architecture du projet
 
-🎨 Expérience Utilisateur (UX)
-Carrousel interactif sur la page produit pour choisir ses skins.
+PROJETJS_LES-SBIRES-LECHEURS
+│
+├── Backend
+│   │
+│   ├── api
+│   │   ├── routes
+│   │   │   └── router.js
+│   │   ├── controller
+│   │   │   └── controller.js
+│   │   └── model
+│   │       └── model.js
+│   │
+│   ├── config
+│   │   └── db.js
+│   │
+│   ├── assets
+│   │   └── ressources statiques / fichiers utiles au backend
+│   │
+│   ├── ressource
+│   │   └── données ou fichiers annexes
+│   │
+│   ├── .env
+│   └── app.js
+│
+├── frontend
+│   │
+│   ├── css
+│   │   ├── catalogue.css
+│   │   ├── card.css
+│   │   ├── header.css
+│   │   └── favoris.css
+│   │
+│   ├── img
+│   │   └── images du site
+│   │
+│   ├── script
+│   │   ├── catalogue.js
+│   │   └── favoris.js
+│   │
+│   └── template
+│       ├── catalogue.html
+│       ├── product.html
+│       ├── cart.html
+│       ├── connexion.html
+│       ├── register.html
+│       ├── profil.html
+│       ├── delivery.html
+│       └── favoris.html
+│
+├── server.js
+├── package.json
+├── package-lock.json
+├── .gitignore
+└── README.md
 
-Effet Hover : survoler une carte dans le catalogue affiche un skin.
+### Frontend
 
-Responsive Design : interface adaptée aux mobiles et tablettes.
+Le frontend gère l’interface utilisateur et les interactions avec l’API.
 
-🛒 Tunnel d'Achat
-Gestion du Panier : ajout de champions ou de skins spécifiques.
-
-Système de Livraison : gestion des adresses utilisateur.
-
-Validation de commande : mise à jour automatique des stocks et reset du panier après achat.
-
-🛠️ INSTALLATION & CONFIGURATION
-1️⃣ Pré-requis
-Node.js installé.
-
-Un serveur MySQL (XAMPP / WAMP / MAMP).
-
-2️⃣ Installation du projet
-Bash
-# Cloner le projet
-git clone [URL_DU_REPO]
-
-# Installer les dépendances
-npm install
-3️⃣ Configuration de la Base de Données
-Ouvrez phpMyAdmin.
-
-Allez dans Query, puis copeir-coller le contenue des fichiers dans l'ordre :
-
-- schema.sql --> Executer
-
-- data.sql --> Executer
-
-- images.sql --> Executer
-
-4️⃣ Lancement
-Bash
-# Lancer le site
-
-alllez dans votre terminal sur le projet, puis ecriver :
-
-npm run projet
-
-Puis patienter jusqu'a la l'ouverture de la page catalogue.
-
-
-🏗️ ARCHITECTURE DU CODE (MVC)
-Le projet est découpé de manière professionnelle pour une meilleure maintenance :
-
-📂 /Models : Contient les requêtes SQL (Interaction BDD).
-
-📂 /Controllers : Logique métier et gestion des réponses API.
-
-📂 /Routes : Définition des points d'entrée (Endpoints).
-
-📂 /Frontend : Fichiers HTML, CSS et Scripts clients.
 
 
 👤 AUTEUR
 Développeur : Kevin & Quentin
-Projet : Challenge JS - Oral de fin d'année.
+Projet : Challenge JS
