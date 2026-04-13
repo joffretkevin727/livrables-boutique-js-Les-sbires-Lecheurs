@@ -28,51 +28,51 @@ Le projet repose sur une architecture client-serveur avec un frontend en HTML/CS
 PROJETJS_LES-SBIRES-LECHEURS
 │
 ├── Backend
-│   │
-│   ├── api
-│   │   ├── routes
-│   │   │   └── router.js
-│   │   ├── controller
-│   │   │   └── controller.js
-│   │   └── model
-│   │       └── model.js
-│   │
-│   ├── config
-│   │   └── db.js
-│   │
-│   ├── assets
-│   │   └── ressources statiques / fichiers utiles au backend
-│   │
-│   ├── ressource
-│   │   └── données ou fichiers annexes
-│   │
-│   ├── .env
-│   └── app.js
+│ │
+│ ├── api
+│ │ ├── routes
+│ │ │ └── router.js
+│ │ ├── controller
+│ │ │ └── controller.js
+│ │ └── model
+│ │ └── model.js
+│ │
+│ ├── config
+│ │ └── db.js
+│ │
+│ ├── assets
+│ │ └── ressources statiques / fichiers utiles au backend
+│ │
+│ ├── ressource
+│ │ └── données ou fichiers annexes
+│ │
+│ ├── .env
+│ └── app.js
 │
 ├── frontend
-│   │
-│   ├── css
-│   │   ├── catalogue.css
-│   │   ├── card.css
-│   │   ├── header.css
-│   │   └── favoris.css
-│   │
-│   ├── img
-│   │   └── images du site
-│   │
-│   ├── script
-│   │   ├── catalogue.js
-│   │   └── favoris.js
-│   │
-│   └── template
-│       ├── catalogue.html
-│       ├── product.html
-│       ├── cart.html
-│       ├── connexion.html
-│       ├── register.html
-│       ├── profil.html
-│       ├── delivery.html
-│       └── favoris.html
+│ │
+│ ├── css
+│ │ ├── catalogue.css
+│ │ ├── card.css
+│ │ ├── header.css
+│ │ └── favoris.css
+│ │
+│ ├── img
+│ │ └── images du site
+│ │
+│ ├── script
+│ │ ├── catalogue.js
+│ │ └── favoris.js
+│ │
+│ └── template
+│ ├── catalogue.html
+│ ├── product.html
+│ ├── cart.html
+│ ├── connexion.html
+│ ├── register.html
+│ ├── profil.html
+│ ├── delivery.html
+│ └── favoris.html
 │
 ├── server.js
 ├── package.json
@@ -80,12 +80,52 @@ PROJETJS_LES-SBIRES-LECHEURS
 ├── .gitignore
 └── README.md
 
-### Frontend
 
-Le frontend gère l’interface utilisateur et les interactions avec l’API.
+---
 
+## Fonctionnement général
 
+### Catalogue
 
-👤 AUTEUR
-Développeur : Kevin & Quentin
-Projet : Challenge JS
+Le frontend envoie une requête à l’API pour récupérer les champions, puis les affiche dynamiquement sous forme de cartes.
+
+### Filtres et recherche
+
+- Les filtres utilisent une route API dédiée (`/champions/filter`)
+- La recherche est effectuée côté frontend en filtrant les données déjà chargées
+
+### Favoris
+
+- Ajout : `POST /favoris`
+- Suppression : `DELETE /favoris/:id`
+- Récupération : `GET /favoris/:user_id`
+
+Les favoris sont liés à l’utilisateur connecté.
+
+### Panier
+
+- Ajout de produits
+- Modification des quantités
+- Suppression d’éléments
+
+### Commandes
+
+- Création d’une commande
+- Association des produits commandés
+- Mise à jour du stock
+
+---
+
+## Installation
+
+### Prérequis
+
+- Node.js
+- MySQL
+
+### Étapes
+
+1. Cloner le projet :
+
+```bash
+git clone <url-du-repo>
